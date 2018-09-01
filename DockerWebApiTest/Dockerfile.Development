@@ -1,0 +1,10 @@
+﻿FROM microsoft/dotnet:2.1-aspnetcore-runtime
+WORKDIR /app
+COPY . /app
+ENV ASPNETCORE_ENVIRONMENT="Development" ASPNETCORE_URLS="http://*:80"
+# 加速Docker镜像编译之更换软件源
+COPY sources.list /etc/apt/
+RUN apt update && apt -y install libgdiplus && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
+EXPOSE 80
+ENTRYPOINT ["dotnet", "AspNetCore.Docker.dll"]
